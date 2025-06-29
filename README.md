@@ -51,4 +51,4 @@ Steps:
 Open the application in your browser:
 `https://localhost:44311`
 
-Check out [ABP Framework](https://abp.io/docs/latest/tutorials/modular-crm), and start building applications skipping the boilerplate code.
+Check out [ABP Framework](https://abp.io/docs/latest/tutorials/modular-crm?utm_source=github&utm_medium=social&utm_campaign=antonmartynyuk_github), and start building applications skipping the boilerplate code.
