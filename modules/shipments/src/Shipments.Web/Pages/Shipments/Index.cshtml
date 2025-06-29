@@ -1,0 +1,158 @@
+﻿@page
+@using Microsoft.Extensions.Localization
+@using Shipments.Localization
+@using Shipments.Shipments
+@model Shipments.Web.Pages.Shipments.IndexModel
+@inject IStringLocalizer<ShipmentsResource> L
+
+@{
+    ViewData["Title"] = "Shipments Management";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shipments.css" />
+}
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success alert-dismissible d-flex align-items-center fade show mb-5">
+        <i class="fa fa-check-circle me-2"></i>
+        <div>
+            @Model.SuccessMessage
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card-header" style="position: relative; z-index: 100;">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Shipments Management</h2>
+        <a asp-page="./Create" class="btn btn-primary" style="position: relative; z-index: 101;">
+            <i class="fa fa-plus"></i> Add Shipment
+        </a>
+    </div>
+</div>
+<div class="card-body" style="position: relative; z-index: 1; margin-top: 0; padding-top: 1.5rem;">
+    @if (Model.Shipments.Any())
+    {
+        <div class="row g-5">
+            @foreach (var shipment in Model.Shipments)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h3 class="fs-4 fw-bold mb-1">#@shipment.Number</h3>
+                                    <span class="text-muted">Order: @shipment.OrderId</span>
+                                </div>
+                                <span class="badge @GetStatusClass(shipment.Status)">
+                                    @shipment.Status
+                                </span>
+                            </div>
+
+                            <div class="mb-3">
+                                <h4 class="fs-6 fw-semibold mb-2">Shipping Details</h4>
+                                <div class="text-muted">
+                                    <div>Carrier: @shipment.Carrier</div>
+                                    <div>Recipient: @shipment.ReceiverEmail</div>
+                                    <div class="mt-1">
+                                        @shipment.Address.Street, @shipment.Address.City, @shipment.Address.Zip
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <h4 class="fs-6 fw-semibold mb-2">Items (@shipment.Items.Count)</h4>
+                                <ul class="list-unstyled text-muted">
+                                    @foreach (var item in shipment.Items)
+                                    {
+                                        <li>@item.Quantity × @item.Product</li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <form method="post" asp-page-handler="UpdateStatus" class="mt-3">
+                                <input type="hidden" name="shipmentNumber" value="@shipment.Number" />
+                                <h4 class="fs-6 fw-semibold mb-2">Update Status</h4>
+                                <div class="d-flex flex-wrap gap-1">
+                                    @foreach (ShipmentStatus status in Enum.GetValues(typeof(ShipmentStatus)))
+                                    {
+                                        <button type="submit" name="status" value="@status" 
+                                                class="btn btn-sm @GetStatusButtonClass(status, shipment.Status)">
+                                            @status
+                                        </button>
+                                    }
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-10">
+            <div class="text-muted mb-4">
+                <i class="fa fa-shipping-fast fa-3x"></i>
+            </div>
+            <h3 class="fs-3 fw-semibold">No shipments yet</h3>
+            <p class="text-muted">Get started by creating a new shipment.</p>
+            <div class="mt-4">
+                <a asp-page="./Create" class="btn btn-primary">
+                    <i class="fa fa-plus"></i> Add Shipment
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+@functions {
+    private string GetStatusClass(ShipmentStatus status)
+    {
+        return status switch
+        {
+            ShipmentStatus.Created => "badge-primary",
+            ShipmentStatus.Processing => "badge-warning",
+            ShipmentStatus.Dispatched => "badge-info",
+            ShipmentStatus.InTransit => "badge-secondary",
+            ShipmentStatus.WaitingCustomer => "badge-dark",
+            ShipmentStatus.Delivered => "badge-success",
+            ShipmentStatus.Cancelled => "badge-danger",
+            _ => "badge-light"
+        };
+    }
+
+    private string GetStatusButtonClass(ShipmentStatus buttonStatus, ShipmentStatus currentStatus)
+    {
+        var baseClass = buttonStatus switch
+        {
+            ShipmentStatus.Created => "btn-outline-primary",
+            ShipmentStatus.Processing => "btn-outline-warning",
+            ShipmentStatus.Dispatched => "btn-outline-info",
+            ShipmentStatus.InTransit => "btn-outline-secondary",
+            ShipmentStatus.WaitingCustomer => "btn-outline-dark",
+            ShipmentStatus.Delivered => "btn-outline-success",
+            ShipmentStatus.Cancelled => "btn-outline-danger",
+            _ => "btn-outline-light"
+        };
+
+        if (buttonStatus == currentStatus)
+        {
+            return buttonStatus switch
+            {
+                ShipmentStatus.Created => "btn-primary",
+                ShipmentStatus.Processing => "btn-warning",
+                ShipmentStatus.Dispatched => "btn-info",
+                ShipmentStatus.InTransit => "btn-secondary",
+                ShipmentStatus.WaitingCustomer => "btn-dark",
+                ShipmentStatus.Delivered => "btn-success",
+                ShipmentStatus.Cancelled => "btn-danger",
+                _ => "btn-light"
+            };
+        }
+
+        return baseClass;
+    }
+}

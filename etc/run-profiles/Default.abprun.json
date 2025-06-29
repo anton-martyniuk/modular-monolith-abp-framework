@@ -1,0 +1,14 @@
+﻿{
+  "applications": {
+    "ShipmentsModularApplication": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44311",
+      "healthCheckEndpoint": "/health-status",
+      "healthUiEndpoint": "/health-ui",
+      "path": "../../ShipmentsModularApplication/ShipmentsModularApplication.csproj",
+      "execution": {
+        "order": 0
+      }
+    }
+  }
+}

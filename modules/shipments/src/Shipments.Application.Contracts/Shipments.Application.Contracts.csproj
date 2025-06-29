@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Shipments</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="9.2.1" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="9.2.1" />
+    <ProjectReference Include="..\Shipments.Domain.Shared\Shipments.Domain.Shared.csproj" />
+    <ProjectReference Include="..\Shipments.Domain\shipments.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

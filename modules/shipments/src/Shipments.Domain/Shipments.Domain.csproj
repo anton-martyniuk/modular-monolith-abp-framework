@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Shipments</RootNamespace>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="9.2.1"/>
+    <ProjectReference Include="..\Shipments.Domain.Shared\Shipments.Domain.Shared.csproj" />
+    <PackageReference Include="Volo.Abp.Commercial.SuiteTemplates" Version="9.2.1" />
+  </ItemGroup>
+
+</Project>

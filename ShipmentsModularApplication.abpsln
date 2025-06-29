@@ -1,0 +1,64 @@
+{
+  "id": "6077607b-e63c-4e09-9785-fa51e7168bcb",
+  "template": "app-nolayers",
+  "versions": {
+    "LeptonX": "4.2.1",
+    "AbpFramework": "9.2.1",
+    "AbpCommercial": "9.2.1",
+    "AbpStudio": "1.0.2",
+    "TargetDotnetFramework": "net9.0"
+  },
+  "modules": {
+    "ShipmentsModularApplication": {
+      "path": "ShipmentsModularApplication.abpmdl",
+      "folder": "main"
+    },
+    "Shipments": {
+      "path": "modules/shipments/Shipments.abpmdl",
+      "folder": "modules"
+    },
+    "Stocks": {
+      "path": "modules/stocks/Stocks.abpmdl",
+      "folder": "modules"
+    }
+  },
+  "runProfiles": {
+    "Default": {
+      "path": "etc/run-profiles/Default.abprun.json"
+    }
+  },
+  "options": {
+    "httpRequests": {
+      "ignoredUrls": []
+    }
+  },
+  "creatingStudioConfiguration": {
+    "template": "app-nolayers",
+    "createdAbpStudioVersion": "1.0.2",
+    "multiTenancy": "false",
+    "runInstallLibs": "true",
+    "useLocalReferences": "false",
+    "uiFramework": "mvc",
+    "databaseProvider": "ef",
+    "runDbMigrator": "true",
+    "databaseManagementSystem": "sqlserver",
+    "createInitialMigration": "true",
+    "theme": "leptonx",
+    "themeStyle": "system",
+    "themeMenuPlacement": "side",
+    "publicWebsite": "",
+    "optionalModules": "",
+    "socialLogin": "false",
+    "selectedLanguages": [
+      "English"
+    ],
+    "defaultLanguage": "English",
+    "createCommand": "abp new ShipmentsModularApplication -t app-nolayers --ui-framework mvc --mobile  --database-provider ef --database-management-system sqlserver --theme leptonx --no-tests --without-cms-kit --dont-run-bundling --no-multi-tenancy --no-social-logins -no-saas -no-gdpr -no-openiddict-admin-ui -no-audit-logging -no-file-management -no-language-management -no-text-template-management"
+  },
+  "folders": {
+    "items": {
+      "main": {},
+      "modules": {}
+    }
+  }
+}

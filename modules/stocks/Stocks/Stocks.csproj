@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Stocks</RootNamespace>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.3" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="9.2.1" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="9.2.1" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.2.1" />
+    <ProjectReference Include="..\..\shipments\src\Shipments.Application.Contracts\Shipments.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\shipments\src\Shipments.Domain\shipments.Domain.csproj" />
+
+    <ProjectReference Include="..\Stocks.Contracts\Stocks.Contracts.csproj" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="9.2.1" />
+  </ItemGroup>
+
+</Project>

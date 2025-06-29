@@ -1,0 +1,48 @@
+/* Styles for the Stocks Module */
+
+.badge {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
+}
+
+.badge-primary {
+    background-color: #3f6ad8;
+    color: #fff;
+}
+
+.badge-success {
+    background-color: #3ac47d;
+    color: #fff;
+}
+
+.badge-warning {
+    background-color: #f7b924;
+    color: #212529;
+}
+
+.badge-danger {
+    background-color: #d92550;
+    color: #fff;
+}
+
+.badge-info {
+    background-color: #16aaff;
+    color: #fff;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.badge-dark {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.badge-light {
+    background-color: #f8f9fa;
+    color: #212529;
+}

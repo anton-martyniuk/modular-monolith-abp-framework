@@ -1,0 +1,183 @@
+﻿@page
+@using Microsoft.Extensions.Localization
+@using Shipments.Localization
+@model Shipments.Web.Pages.Shipments.CreateModel
+@inject IStringLocalizer<ShipmentsResource> L
+
+@{
+    ViewData["Title"] = "Create Shipment";
+}
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <h2>Create New Shipment</h2>
+        </div>
+        <div class="card-toolbar">
+            <a asp-page="./Index" class="btn btn-sm btn-secondary">
+                <i class="fa fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading">Error!</h4>
+                <p>@Model.ErrorMessage</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (!ModelState.IsValid)
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading">Validation Error</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        <form method="post" id="shipmentForm" class="form">
+            <div class="form-group row mb-5">
+                <div class="col-md-6">
+                    <label asp-for="CreateShipmentRequest.Number" class="form-label required">Shipment Number</label>
+                    <input asp-for="CreateShipmentRequest.Number" type="text" class="form-control" required />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CreateShipmentRequest.OrderId" class="form-label required">Order ID</label>
+                    <input asp-for="CreateShipmentRequest.OrderId" type="text" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group row mb-5">
+                <div class="col-md-6">
+                    <label asp-for="CreateShipmentRequest.Carrier" class="form-label required">Carrier</label>
+                    <input asp-for="CreateShipmentRequest.Carrier" type="text" class="form-control" required />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CreateShipmentRequest.ReceiverEmail" class="form-label required">Receiver Email</label>
+                    <input asp-for="CreateShipmentRequest.ReceiverEmail" type="email" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="separator separator-dashed my-8"></div>
+
+            <h3 class="mb-5">Address Information</h3>
+            <div class="form-group row mb-5">
+                <div class="col-md-4">
+                    <label asp-for="CreateShipmentRequest.Address.Street" class="form-label required">Street</label>
+                    <input asp-for="CreateShipmentRequest.Address.Street" type="text" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="CreateShipmentRequest.Address.City" class="form-label required">City</label>
+                    <input asp-for="CreateShipmentRequest.Address.City" type="text" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="CreateShipmentRequest.Address.Zip" class="form-label required">Zip Code</label>
+                    <input asp-for="CreateShipmentRequest.Address.Zip" type="text" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="separator separator-dashed my-8"></div>
+
+            <h3 class="mb-5">Shipment Items</h3>
+            <div id="itemsContainer">
+                <div class="item-row row mb-5">
+                    <div class="col-md-8">
+                        <label class="form-label required">Product</label>
+                        <select name="CreateShipmentRequest.Items[0].Product" class="form-select product-select" required>
+                            <option value="">-- Select Product --</option>
+                            @foreach (var stock in Model.AvailableStocks)
+                            {
+                                <option value="@stock.ProductName">@stock.ProductName (Available: @stock.AvailableQuantity)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label required">Quantity</label>
+                        <input name="CreateShipmentRequest.Items[0].Quantity" type="number" min="1" class="form-control" required />
+                    </div>
+                    <div class="col-md-1 d-flex align-items-end">
+                        <!-- First row doesn't have remove button -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <button type="button" id="addItemBtn" class="btn btn-light-primary btn-sm">
+                    <i class="fa fa-plus"></i> Add Item
+                </button>
+            </div>
+
+            <div class="card-footer d-flex justify-content-end py-6 px-9">
+                <a asp-page="./Index" class="btn btn-secondary me-2">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Create Shipment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function() {
+            const itemsContainer = document.getElementById('itemsContainer');
+            const addItemBtn = document.getElementById('addItemBtn');
+
+            addItemBtn.addEventListener('click', function() {
+                const itemRows = document.querySelectorAll('.item-row');
+                const newIndex = itemRows.length;
+
+                // Clone the product options from the first dropdown
+                const firstProductSelect = document.querySelector('.product-select');
+                const productOptions = firstProductSelect.innerHTML;
+
+                const newRow = document.createElement('div');
+                newRow.className = 'item-row row mb-5';
+
+                newRow.innerHTML = `
+                    <div class="col-md-8">
+                        <label class="form-label required">Product</label>
+                        <select name="CreateShipmentRequest.Items[${newIndex}].Product" class="form-select product-select" required>
+                            ${productOptions}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label required">Quantity</label>
+                        <input name="CreateShipmentRequest.Items[${newIndex}].Quantity" type="number" min="1" class="form-control" required />
+                    </div>
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button type="button" class="remove-item-btn btn btn-icon btn-light-danger btn-sm mb-3">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+
+                itemsContainer.appendChild(newRow);
+
+                const removeBtn = newRow.querySelector('.remove-item-btn');
+                if (removeBtn) {
+                    removeBtn.addEventListener('click', function() {
+                        newRow.remove();
+                        // Reindex the remaining rows
+                        updateItemIndices();
+                    });
+                }
+            });
+
+            function updateItemIndices() {
+                const itemRows = document.querySelectorAll('.item-row');
+                itemRows.forEach((row, index) => {
+                    const inputs = row.querySelectorAll('input');
+                    if (inputs[0]) {
+                        inputs[0].name = `CreateShipmentRequest.Items[${index}].Product`;
+                    }
+                    if (inputs[1]) {
+                        inputs[1].name = `CreateShipmentRequest.Items[${index}].Quantity`;
+                    }
+                });
+            }
+        });
+    </script>
+}

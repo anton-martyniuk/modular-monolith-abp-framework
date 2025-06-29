@@ -1,0 +1,16 @@
+﻿{
+  "packages": {
+    "Stocks": {
+      "path": "Stocks/Stocks.abppkg"
+    },
+    "Stocks.UI": {
+      "path": "Stocks.UI/Stocks.UI.abppkg"
+    },
+    "Stocks.Tests": {
+      "path": "Stocks.Tests/Stocks.Tests.abppkg"
+    },
+    "Stocks.Contracts": {
+      "path": "Stocks.Contracts/Stocks.Contracts.abppkg"
+    }
+  }
+}

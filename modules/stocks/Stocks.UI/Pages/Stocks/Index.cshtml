@@ -1,0 +1,74 @@
+﻿@page
+@using Microsoft.Extensions.Localization
+@using Stocks.Localization
+@model Stocks.UI.Pages.Stocks.IndexModel
+@inject IStringLocalizer<StocksResource> L
+
+@{
+    ViewData["Title"] = "Inventory Management";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/stocks.css" />
+}
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">Inventory Management</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (Model.Stocks.Any())
+        {
+            <div class="row g-5">
+                @foreach (var stock in Model.Stocks)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h3 class="fs-4 fw-bold mb-1">@stock.ProductName</h3>
+                                    </div>
+                                    <span class="badge @GetQuantityClass(stock.AvailableQuantity)">
+                                        @stock.AvailableQuantity in stock
+                                    </span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <h4 class="fs-6 fw-semibold mb-2">Stock Details</h4>
+                                    <div class="text-muted">
+                                        <div>Last Updated: @stock.LastUpdatedAt.ToString("g")</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-10">
+                <div class="text-muted mb-4">
+                    <i class="fa fa-boxes fa-3x"></i>
+                </div>
+                <h3 class="fs-3 fw-semibold">No inventory items found</h3>
+                <p class="text-muted">The inventory is currently empty.</p>
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    private string GetQuantityClass(int quantity)
+    {
+        return quantity switch
+        {
+            <= 0 => "badge-danger",
+            <= 10 => "badge-warning",
+            _ => "badge-success"
+        };
+    }
+}

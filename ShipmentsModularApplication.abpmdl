@@ -1,0 +1,46 @@
+{
+  "template": "app-nolayers",
+  "imports": {
+    "Volo.Abp.LeptonXTheme": {
+      "version": "4.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict.Pro": {
+      "version": "9.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity.Pro": {
+      "version": "9.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account.Pro": {
+      "version": "9.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.2.1",
+      "isInstalled": true
+    },
+    "Shipments": {
+      "path": "modules/shipments/Shipments.abpmdl",
+      "isInstalled": true
+    },
+    "Stocks": {
+      "path": "modules/stocks/Stocks.abpmdl",
+      "isInstalled": true
+    }
+  },
+  "packages": {
+    "ShipmentsModularApplication": {
+      "path": "ShipmentsModularApplication/ShipmentsModularApplication.abppkg"
+    }
+  }
+}
